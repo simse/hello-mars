@@ -11,7 +11,7 @@ module.exports = {
         pathToConfigModule: `src/utils/typography`,
       },
     },
-    {
+    /*{
       resolve: '@directus/gatsby-source-directus',
       options: {
         url: `https://api.hellomars.show`,
@@ -19,7 +19,7 @@ module.exports = {
           token: 'cce6cad570ee951b3e33faab306221a580d756b934978a8fb63a07bfdf398f68',
         },
       },
-    },
+    },*/
     `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
