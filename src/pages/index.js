@@ -23,7 +23,7 @@ class IndexPage extends React.Component {
 
           <h1 className={indexStyles.title}>Hello Mars</h1>
           <h2 className={indexStyles.subtitle}>
-            A podcast about technology, and sometimes space
+            A podcast about technology, and sometimes space*
           </h2>
 
           <div className={indexStyles.gallery}>
@@ -48,6 +48,7 @@ query AllPodcastEpisodes {
       sourceId
       episode_number
       excerpt
+      audioUrl
       thumbnailImage {
         childImageSharp {
           gatsbyImageData(width: 500, height: 300, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF], quality: 100)
