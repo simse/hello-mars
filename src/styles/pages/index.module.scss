@@ -12,4 +12,13 @@
 .subtitle {
     font-size: 1.4rem;
     font-weight: 700;
+    margin-bottom: 100px;
+}
+
+.gallery {
+    display: flex;
+
+    > div {
+        margin-right: 20px;
+    }
 }

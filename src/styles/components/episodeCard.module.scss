@@ -1,0 +1,26 @@
+.card {
+    border: 2px solid #000;
+    width: 400px;
+    box-sizing: border-box;
+}
+
+.meta {
+    padding: 15px;
+
+    .title {
+        font-weight: 400;
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .duration {
+        font-size: .7rem;
+        opacity: 0.7;
+    }
+
+    .excerpt {
+        margin: 0;
+        margin-top: 20px;
+        font-size: .8rem;
+    }
+}

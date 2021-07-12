@@ -14,7 +14,7 @@
     "clean": "gatsby clean"
   },
   "dependencies": {
-    "@directus/gatsby-source-directus": "^9.0.0-rc.83",
+    "axios": "^0.21.1",
     "gatsby": "^3.9.0",
     "gatsby-cli": "^3.9.0",
     "gatsby-plugin-image": "^1.9.0",
@@ -22,10 +22,14 @@
     "gatsby-plugin-sharp": "^3.9.0",
     "gatsby-plugin-typography": "^3.9.0",
     "gatsby-source-filesystem": "^3.9.0",
+    "gatsby-source-graphql": "^3.9.0",
     "gatsby-transformer-sharp": "^3.9.0",
+    "got": "^11.8.2",
     "react": "^17.0.1",
+    "react-bus": "^3.0.0",
     "react-dom": "^17.0.1",
     "react-typography": "^0.16.20",
+    "react-use-audio-player": "^1.2.4",
     "sass": "^1.35.2",
     "three": "^0.130.1",
     "typography": "^0.16.21"

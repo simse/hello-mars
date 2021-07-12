@@ -7,7 +7,7 @@ const typography = new Typography({
         "Inter",
         "sans-serif",
     ],
-    bodyFontFamily: ["Georgia", "serif"],
+    bodyFontFamily: ["Inter", "sans-serif"],
 })
 
 export default typography
