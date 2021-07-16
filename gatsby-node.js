@@ -8,6 +8,10 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
     const episodeHostsResponse = await axios.get("https://api.hellomars.show/items/podcast_episode_host")
     const episodeHostsData = episodeHostsResponse.data.data
 
+    // Files metadata
+    const filesResponse = await axios.get("https://api.hellomars.show/files")
+    const filesData = filesResponse.data.data
+
     // Register podcast hosts
     const hostsResponse = await axios.get("https://api.hellomars.show/items/podcast_host")
     const hostsData = hostsResponse.data.data
@@ -47,6 +51,9 @@ exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => 
 
         episode.sourceId = episode.id
         episode.audioUrl = `https://api.hellomars.show/assets/${episode.audio}`
+
+        // Fetch duration
+        episode.duration = filesData.find(file => file.id === episode.audio).duration
 
         createNode({
             ...episode,

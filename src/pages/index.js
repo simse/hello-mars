@@ -49,6 +49,7 @@ query AllPodcastEpisodes {
       episode_number
       excerpt
       audioUrl
+      duration
       thumbnailImage {
         childImageSharp {
           gatsbyImageData(width: 500, height: 300, placeholder: BLURRED, formats: [AUTO, WEBP, AVIF], quality: 100)

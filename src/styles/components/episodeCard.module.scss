@@ -2,6 +2,55 @@
     border: 2px solid #000;
     width: 400px;
     box-sizing: border-box;
+    position: relative;
+}
+
+.play-button {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    left: 0;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.3);
+    height: 238px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity ease-in-out 200ms;
+
+    img {
+        margin: 0;
+        //filter: invert(1);
+        width: 32px;
+        height: 32px;
+        transform: scale(0.75);
+        transition: transform ease-in-out 250ms;
+    }
+
+    .circle {
+        background: #fff;
+        height: 64px;
+        width: 64px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px;
+        transition: background ease-in-out 200ms;
+
+        &:hover {
+            background: #eee;
+            cursor: pointer;
+        }
+    }
+
+    &:hover {
+        opacity: 1;
+        
+        img {
+            transform: scale(1);
+        }
+    }
 }
 
 .meta {
