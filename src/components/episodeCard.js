@@ -1,32 +1,20 @@
 import * as React from "react"
 import { GatsbyImage, getImage } from "gatsby-plugin-image"
-import { useBus, useListener } from 'react-bus'
 import { useAudioPlayer/*, useAudioPosition */} from 'react-use-audio-player'
+import { useDispatch, useSelector } from 'react-redux'
+
+import { setSource } from "../state/features/audioPlayer/audioPlayerSlice"
 
 // styles
 import * as styles from "../styles/components/episodeCard.module.scss"
 
 // markup
 const EpisodeCard = ({ episode }) => {
-    const bus = useBus()
-    const { playing } = useAudioPlayer()
+    const dispatch = useDispatch()
+    const { playing, togglePlayPause, play } = useAudioPlayer()
 
-    // track whether to resume or change source
-    const [lastAudioId, setLastAudioId] = React.useState("")
-
-    // track whether current audio is the one playing
-    const [currentAudioPlaying, setCurrentAudioPlaying] = React.useState(false)
-    const changeSource = React.useCallback(event => {
-        setCurrentAudioPlaying(episode.id === event.id)
-        setLastAudioId(event.id)
-    })
-    useListener("changePlayerSource", changeSource)
-
-    const playerReset = React.useCallback(event => {
-        setCurrentAudioPlaying(false)
-        setLastAudioId("")
-    })
-    useListener("audioPlayerReset", playerReset)
+    const sourceId = useSelector(state => state.audioPlayer.source.id)
+    const thisAudioPlaying = (sourceId === episode.id)
     
     // length
     let d = Number(episode.duration/1000);
@@ -36,25 +24,22 @@ const EpisodeCard = ({ episode }) => {
     return (
         <div className={styles.card}>
             <div className={styles.playButton}>
-                <div className={styles.circle} onClick={
+                <div className={styles.circle} role={"button"} tabIndex={0} onClick={
                     () => {
-                        if (currentAudioPlaying) {
-                            bus.emit("pausePlayer")
-                            setCurrentAudioPlaying(false)
-                        } else if(lastAudioId === episode.id) {
-                            bus.emit("resumePlayer")
-                            setCurrentAudioPlaying(true)
+                        if (thisAudioPlaying) {
+                            togglePlayPause()
                         } else {
-                            bus.emit("changePlayerSource", {
-                                source: episode.audioUrl,
-                                title: `Episode ${episode.episode_number}: ${episode.title}`,
+                            dispatch(setSource({
+                                url: episode.audioUrl,
                                 id: episode.id,
-                                duration: episode.duration
-                            })
+                                duration: episode.duration,
+                                title: `Episode ${episode.episode_number}: ${episode.title}`,
+                            }))
+                            play()
                         }
                     }
                 }>
-                    {(playing && currentAudioPlaying) ? <img src={require("../images/pause.png").default} alt={"play button"} /> : <img style={{marginLeft:2}} src={require("../images/play.png").default} alt={"play button"} />}
+                    {(playing && thisAudioPlaying) ? <img src={require("../images/pause.png").default} alt={"play button"} /> : <img style={{marginLeft:2}} src={require("../images/play.png").default} alt={"play button"} />}
                 </div>
             </div>
 
