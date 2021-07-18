@@ -4,6 +4,22 @@ module.exports = {
     title: "Hello Mars",
   },
   plugins: [
+    {
+      resolve: 'gatsby-plugin-ackee-tracker',
+      options: {
+        // Domatin ID found when adding a domain in the admin panel.
+        domainId: 'e02693e6-8480-410d-b8aa-f290ffca7e13',
+        // URL to Server eg: "https://analytics.test.com".
+        server: 'https://analytics.sorensen.cloud',
+        // Disabled analytic tracking when running localy
+        ignoreLocalhost: true,
+        // Enable or disable the tracking of your own visits (as identified by your login to the Ackee dashboard).
+        ignoreOwnVisits: true,
+        // If enabled it will collect info on OS, BrowserInfo, Device  & ScreenSize
+        detailed: false,
+      },
+    },
+    `gatsby-plugin-gatsby-cloud`,
     "gatsby-plugin-sass",
     {
       resolve: `gatsby-plugin-typography`,
