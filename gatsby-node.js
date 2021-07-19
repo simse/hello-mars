@@ -1,5 +1,81 @@
 const axios = require('axios').default;
 const { createRemoteFileNode } = require(`gatsby-source-filesystem`)
+const fs = require('fs');
+const Podcast = require("podcast");
+
+exports.onPostBuild = async ({ graphql }) => {
+    // generate podcast xml feed
+    const feed = new Podcast({
+        title: "Hello Mars",
+        description: "A technology podcast hosted by two Computer Science students.",
+        feedUrl: "https://hellomars.show/podcast.xml",
+        siteUrl: "https://hellomars.show",
+        imageUrl: "https://hellomars.show/image.jpg",
+        author: "Simon and Alastair",
+        language: "en-UK",
+        categories: ["Technology"],
+        itunesAuthor: "Simon and Alastair",
+        itunesSubtitle: "A technology podcast hosted by two Computer Science students.",
+        itunesSummary: "Two computer science students tries to explore the ever evolving technology field. There's always something new to talk about.",
+        itunesOwner: {
+            name: "Simon and Alastair",
+            email: "yo@hellomars.show"
+        },
+        itunesExplicit: false,
+        itunesCategory: [
+            {
+                text: "Technology"
+            }
+        ],
+        itunesImage: "https://hellomars.show/image.jpg",
+        itunesType: "episodic"
+    });
+
+    // fetch episodes
+    const episodesQuery = await graphql(`
+    query AllPodcastEpisodes {
+        episodes: allPodcastEpisode(sort: {fields: episode_number, order: DESC}) {
+          nodes {
+            id
+            title
+            sourceId
+            episode_number
+            excerpt
+            audioUrl
+            duration
+            date_created
+          }
+        }
+      }
+    `)
+
+    const episodes = episodesQuery.data.episodes.nodes
+
+    episodes.forEach(episode => {
+        feed.addItem({
+            title: `Episode ${episode.episode_number}: ${episode.title}`,
+            description: episode.description,
+            url: `https://hellomars.show/episode/${episode.episode_number}`,
+            guid: episode.id,
+            date: episode.date_created,
+            enclosure: {
+                url: episode.audioUrl,
+                type: "audio/mpeg"
+            },
+            itunesSeason: 1,
+            itunesEpisode: episode.episode_number
+        })
+    })
+
+    const xml = feed.buildXml()
+    console.log(xml)
+
+    fs.writeFile('public/podcast.xml', xml, function (err) {
+        if (err) throw err;
+        // console.log('Saved!');
+
+    });
+}
 
 exports.sourceNodes = async ({ actions, createNodeId, createContentDigest }) => {
     const { createNode } = actions
